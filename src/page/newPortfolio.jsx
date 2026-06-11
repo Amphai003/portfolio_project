@@ -14,7 +14,9 @@ const NewPortfolio = () => {
         email: '',
         feedback: ''
     });
- 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitStatus, setSubmitStatus] = useState(false);
+
 
     useEffect(() => {
         setIsMounted(true);
@@ -38,7 +40,7 @@ const NewPortfolio = () => {
 
 
 
-            const cvUrl = "/public/Mr.Amphai CV Resume (3).pdf";
+            const cvUrl = "/Mr.Amphai CV Resume (3).pdf";
             const link = document.createElement('a');
             link.href = cvUrl;
             link.download = "Amphai_CV.pdf";
@@ -50,15 +52,56 @@ const NewPortfolio = () => {
             setIsLoading(false);
         }
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        alert('Form submitted:', formData);
-        // Add your form submission logic here
+        setIsSubmitting(true);
+        setSubmitStatus('');
+
+        try {
+            // Basic validation
+            if (!formData.name || !formData.email || !formData.feedback) {
+                throw new Error('Please fill in all required fields');
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+                throw new Error('Please enter a valid email address');
+            }
+
+            // Your API call or form submission logic
+            // const response = await submitFormToAPI(formData);
+
+            // Success handling
+            setSubmitStatus('success');
+            alert('Form submitted successfully!');
+
+            // Reset form
+            setFormData({
+                name: '',
+                email: '',
+                feedback: ''
+            });
+
+        } catch (error) {
+            // Error handling
+            setSubmitStatus('error');
+            alert(`Submission failed: ${error.message}`);
+            console.error('Form submission error:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
-    const handleGitHup = ()=>{
+    const handleGitHup = () => {
         window.open("https://github.com/Amphai003");
     };
+
+    // const handleFacebook =()=>{
+    //     window.open("");
+    // };
+    
+    
 
     return (
         <div className="min-h-screen bg-black">
@@ -102,14 +145,14 @@ const NewPortfolio = () => {
                     <div className="flex mt-10 space-x-4">
                         <div className="flex items-center justify-center w-12 h-12 transition-colors duration-300 border-2 border-gray-400 rounded-full hover:border-white">
                             <img
-                                src="/public/facebook.png"
+                                src="/facebook.png"
                                 alt="facebook"
                                 className="object-cover w-8 h-8 rounded-full"
                             />
                         </div>
                         <div className="flex items-center justify-center w-12 h-12 transition-colors duration-300 border-2 border-gray-400 rounded-full hover:border-white">
                             <img
-                                src="/public/githup.png"
+                                src="/githup.png"
                                 alt="github"
                                 className="object-cover w-8 h-8 rounded-full"
                                 onClick={handleGitHup}
@@ -118,7 +161,7 @@ const NewPortfolio = () => {
                         </div>
                         <div className="flex items-center justify-center w-12 h-12 transition-colors duration-300 border-2 border-gray-400 rounded-full hover:border-white">
                             <img
-                                src="/public/ig.jpeg"
+                                src="/ig.jpeg"
                                 alt="instagram"
                                 className="object-cover w-8 h-8 rounded-full"
                             />
@@ -147,7 +190,7 @@ const NewPortfolio = () => {
                             <button onClick={handleDowlaodCv} disabled={isLoading}
                                 className="w-full px-4 py-2 font-bold text-white transition-colors bg-blue-500 border-2 rounded-sm cursor-pointer hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed">
 
-                                {isLoading ? <LoadingDot className="justify-center"/> : "CV"}
+                                {isLoading ? <LoadingDot className="justify-center" /> : "CV"}
                             </button>
 
                         </div>
@@ -160,70 +203,22 @@ const NewPortfolio = () => {
                     <div className="overflow-hidden transition-all duration-300 bg-gray-800 border-2 border-gray-600 rounded-lg hover:border-blue-500 hover:scale-105">
                         <div className="h-40 overflow-hidden bg-gray-700">
                             <img
-                                src="/src/assets/project1.jpg"
-                                alt="Project 1"
-                                className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
+                                src="/booking room.jpg" 
+                                alt="CeitBOOKING"
+                                className="object-cover w-full transition-transform duration-500 hover:scale-110"
                             />
                         </div>
+
                         <div className="p-4">
-                            <h3 className="mb-2 text-lg font-bold text-white">Project Title 1</h3>
+                            <h3 className="mb-2 text-lg font-bold text-white">CEIT BOOKING MEETING ROOM</h3>
                             <p className="text-sm text-gray-300">
-                                Short description of the project and technologies used.
+                                Using react.js ,Tailwind.css,Vite.js and using Node.js for backend.
                             </p>
                         </div>
+                    </div>
                     </div>
 
-                    {/* Project 2 */}
-                    <div className="overflow-hidden transition-all duration-300 bg-gray-800 border-2 border-gray-600 rounded-lg hover:border-blue-500 hover:scale-105">
-                        <div className="h-40 overflow-hidden bg-gray-700">
-                            <img
-                                src="/src/assets/project2.jpg"
-                                alt="Project 2"
-                                className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
-                            />
-                        </div>
-                        <div className="p-4">
-                            <h3 className="mb-2 text-lg font-bold text-white">Project Title 2</h3>
-                            <p className="text-sm text-gray-300">
-                                Short description of the project and technologies used.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Project 3 */}
-                    <div className="overflow-hidden transition-all duration-300 bg-gray-800 border-2 border-gray-600 rounded-lg hover:border-blue-500 hover:scale-105">
-                        <div className="h-40 overflow-hidden bg-gray-700">
-                            <img
-                                src="/src/assets/project3.jpg"
-                                alt="Project 3"
-                                className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
-                            />
-                        </div>
-                        <div className="p-4">
-                            <h3 className="mb-2 text-lg font-bold text-white">Project Title 3</h3>
-                            <p className="text-sm text-gray-300">
-                                Short description of the project and technologies used.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Project 4 */}
-                    <div className="overflow-hidden transition-all duration-300 bg-gray-800 border-2 border-gray-600 rounded-lg hover:border-blue-500 hover:scale-105">
-                        <div className="h-40 overflow-hidden bg-gray-700">
-                            <img
-                                src="/src/assets/project4.jpg"
-                                alt="Project 4"
-                                className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
-                            />
-                        </div>
-                        <div className="p-4">
-                            <h3 className="mb-2 text-lg font-bold text-white">Project Title 4</h3>
-                            <p className="text-sm text-gray-300">
-                                Short description of the project and technologies used.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                  
 
                 {/* Contact Section - Side by side layout */}
                 <h1 className="mt-16 text-2xl text-center text-white">Contact</h1>
@@ -260,6 +255,7 @@ const NewPortfolio = () => {
                                 required={true}
                                 value={formData.name}
                                 onChange={handleChange}
+                                disabled={isSubmitting}
                             />
 
 
@@ -272,6 +268,7 @@ const NewPortfolio = () => {
                                 required={true}
                                 value={formData.email}
                                 onChange={handleChange}
+                                disabled={isSubmitting}
                             />
 
 
@@ -284,7 +281,19 @@ const NewPortfolio = () => {
                                 required={true}
                                 value={formData.feedback}
                                 onChange={handleChange}
+                                disabled={isSubmitting}
                             />
+                            {isSubmitStatus === 'success' && (
+                                <div className="success-message">
+                                    Your message has been sent successfully.
+                                </div>
+                            )}
+                            {isSubmitStatus === 'error' && (
+                                <div className="error-message">
+                                    Sorry your message failed to sent . Please try agian
+                                </div>
+                            )}
+
 
                             <button
                                 type="submit"

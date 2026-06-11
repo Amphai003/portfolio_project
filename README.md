@@ -14,3 +14,40 @@ The React Compiler is currently not compatible with SWC. See [this issue](https:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Docker & CI
+
+This project includes a production-ready `Dockerfile` (multi-stage) and a `docker-compose.yml` for local testing. It also includes a GitHub Actions workflow that builds the app, runs lint, builds a Docker image and pushes it to Docker Hub.
+
+### GitHub Actions
+
+The workflow is located at `.github/workflows/ci.yml` and runs on pushes to `main` and on pull requests targeting `main`.
+
+Secrets required in your repository settings:
+- `DOCKERHUB_USERNAME` — your Docker Hub username or organization
+- `DOCKERHUB_TOKEN` — a Docker Hub access token (recommended) or password
+
+What the workflow does:
+- Checks out the code
+- Installs deps with `npm ci`
+- Runs `npm run lint`
+- Runs `npm run build` (Vite)
+- Logs in to Docker Hub and pushes the built image tagged as `${DOCKERHUB_USERNAME}/portfolio_project:latest` and also with the commit SHA
+
+### Local Docker / docker-compose
+
+Build and run locally (docker must be installed):
+
+```cmd
+docker-compose up --build
+```
+
+Open http://localhost:8080
+
+Or build and run the image directly:
+
+```cmd
+docker build -t portfolio_project:latest .
+docker run --rm -p 8080:80 portfolio_project:latest
+```
+

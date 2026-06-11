@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: portfolio_project:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    # For local iterative development you can mount the dist folder after running `npm run build`
+    # volumes:
+    #   - ./dist:/usr/share/nginx/html:ro
