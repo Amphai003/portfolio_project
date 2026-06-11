@@ -1,5 +1,5 @@
+import { Home, PhoneIcon, ToolCaseIcon, User } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
-import { Home,PhoneIcon,ToolCaseIcon,User, WorkflowIcon } from 'lucide-react';
 
 const Navbar = () => {
   const navigate = useNavigate();
